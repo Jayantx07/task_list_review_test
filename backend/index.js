@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('Connected to MongoDB Atlas');
         app.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
+            console.log(`Server is running on  http://localhost:${port}`);
         });
     })
     .catch(err => {
@@ -42,4 +42,22 @@ app.get('/tasks', async (req, res) => {
 
 
 // Write an endpoint to create a new task.
+app.post('/tasks', async (req, res) => {
+    try {
+        const { title, dueDate, priority, status } = req.body;
 
+        // Validate input
+        if (!title || !dueDate) {
+            return res.status(400).json({ message: 'Title and Due Date are required' });
+        }
+
+        // Create a new task
+        const newTask = new Task({ title, dueDate, priority, status });
+        await newTask.save();
+
+        res.status(201).json(newTask);
+    } catch (err) {
+        console.error('Error creating task:', err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});

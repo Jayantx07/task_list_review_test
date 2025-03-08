@@ -1,8 +1,10 @@
 /* src/components/HomePage.css */
-
+*{
+    width: 100%;
+}
 .home-page {
-    margin: 20px auto;
-    max-width: 800px;
+    margin: 20px ;
+    width: 100%;
     text-align: left;
 }
 
